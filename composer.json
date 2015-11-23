@@ -1,0 +1,20 @@
+{
+    "name": "mbutomax/f3-helpers",
+    "description": "Set of helper classes to be used upon Fat-Free-Framework",
+    "type": "application",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "authors": [
+        {
+            "name": "Massimiliano Sini",
+            "email": "mbuto@massimilianosini.it"
+        }
+    ],
+    "config": {
+        "vendor-dir": "."
+    },
+    "autoload": {
+        "classmap": ["Logger"]
+    }
+}
