@@ -15,6 +15,6 @@
         "vendor-dir": "."
     },
     "autoload": {
-        "classmap": ["Logger"]
+        "classmap": ["Core","Logger"]
     }
 }
