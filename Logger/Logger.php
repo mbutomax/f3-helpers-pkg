@@ -19,10 +19,9 @@ class Logger {
   *	Instantiate class
   *	@param $file string
   **/
-  function __construct($file, $lSep = " | ", $format='Y-m-d H:i:s' ) {
-    $fw = \Base::instance();
-    if ( !is_dir( $dir = $fw->get('LOGS') ) ) {
-       mkdir($dir, Base::MODE, TRUE);
+  function __construct($logDir, $file, $lSep = " | ", $format='Y-m-d H:i:s' ) {
+    if ( !is_dir( $dir = $logDir ) ) {
+       mkdir($dir, '0755', TRUE);
     }
     $this->file = $dir.$file;
     $this->sep  = $lSep;
@@ -37,25 +36,26 @@ class Logger {
    *	@param $level integer
    */
   function log($text, $level=0) {
-    $fw = \Base::instance();
-    // print a row in the log, only if the F3 DEBUG var
-    // is greater or equal to the specified parameter
-    if ( $level <= $fw->get('DEBUG') ) {
-      $arrVars = array(
-        date($this->dFmt),
-        (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : ''),
-        $this->uID,
+        // let the app calling this helper
+        // decide and check if to write the line in the log
+        // depending on an external value (DEBUG, TEST, etc)
+        $arrVars = array(
+          date($this->dFmt),
+          (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : ''),
+          $this->uID,
+          $level,
+          trim($text)
+        );
+        
         // TODO
-        // aggiungere uno uniqID per controllare la sessione
-        $level,
-        trim($text)
-      );
-      $fw->write(
-        $this->file,
-        join($this->sep, $arrVars).PHP_EOL,
-        TRUE
-      );
-    }
+        // replace the FatFree Write method with the standard
+        // php write on a file handle
+        // or extend the log object of FatFree
+//        $fw->write(
+//          $this->file,
+//          join($this->sep, $arrVars).PHP_EOL,
+//          TRUE
+//        );
   }
   
 }
